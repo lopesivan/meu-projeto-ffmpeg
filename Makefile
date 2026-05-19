@@ -155,3 +155,5 @@ info:
 	@echo "$(YELLOW)Arquivos de vídeo no diretório:$(NC)"
 	@ls -1 *.mp4 *.mkv *.avi *.mov 2>/dev/null || echo "  (nenhum encontrado)"
 
+clean:
+	conan remove "ffmpeg/8.0:*" --confirm
