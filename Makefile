@@ -17,7 +17,9 @@ MAGENTA := \033[0;35m
 NC := \033[0m # No Color
 
 # Target padrão
-all: init config build
+all: help
+
+deploy: init config build
 
 # Ajuda
 help:
@@ -26,7 +28,6 @@ help:
 	@echo "$(CYAN)╚════════════════════════════════════════════╝$(NC)"
 	@echo ""
 	@echo "$(BLUE)📦 Comandos disponíveis:$(NC)"
-	@echo "  $(GREEN)make all$(NC)       - Executa init, config e build"
 	@echo "  $(GREEN)make init$(NC)      - Instala dependências com Conan"
 	@echo "  $(GREEN)make config$(NC)    - Configura o projeto com CMake"
 	@echo "  $(GREEN)make build$(NC)     - Compila o projeto"
@@ -35,6 +36,7 @@ help:
 	@echo "  $(GREEN)make rebuild$(NC)   - Limpa e reconstrói tudo"
 	@echo "  $(GREEN)make clean$(NC)     - Remove arquivos de build"
 	@echo "  $(GREEN)make info$(NC)      - Informações do projeto"
+	@echo "  $(GREEN)make deploy$(NC)    - Executa init, config e build"
 	@echo ""
 	@echo "$(YELLOW)⚙️  Variáveis:$(NC)"
 	@echo "  BUILD_TYPE=Release|Debug (padrão: Release)"
