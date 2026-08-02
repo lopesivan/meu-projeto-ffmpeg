@@ -1,0 +1,9 @@
+cp /home/ivan/.conan2/profiles/default default.SAVE
+cp default /home/ivan/.conan2/profiles/
+./toggle-libx265.sh toggle
+make init
+make config
+make build
+
+./toggle-libx265.sh toggle
+cp default.SAVE /home/ivan/.conan2/profiles/default
