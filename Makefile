@@ -16,6 +16,9 @@ CYAN := \033[0;36m
 MAGENTA := \033[0;35m
 NC := \033[0m # No Color
 
+PKG_CONFIG_PATH:=/usr/lib/x86_64-linux-gnu/pkgconfig
+export PKG_CONFIG_PATH
+
 # Target padrão
 all: help
 
@@ -133,6 +136,7 @@ clean:
 	@echo "$(YELLOW)>>> 🧹 Limpando arquivos de build...$(NC)"
 	rm -rf $(BUILD_DIR)
 	rm -f CMakeUserPresets.json
+	conan remove "ffmpeg/8.0:*" --confirm
 	@echo "$(GREEN)✓ Limpeza concluída$(NC)"
 
 # Info sobre o projeto
@@ -154,6 +158,3 @@ info:
 	@echo ""
 	@echo "$(YELLOW)Arquivos de vídeo no diretório:$(NC)"
 	@ls -1 *.mp4 *.mkv *.avi *.mov 2>/dev/null || echo "  (nenhum encontrado)"
-
-clean:
-	conan remove "ffmpeg/8.0:*" --confirm
