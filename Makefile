@@ -16,8 +16,8 @@ CYAN := \033[0;36m
 MAGENTA := \033[0;35m
 NC := \033[0m # No Color
 
-PKG_CONFIG_PATH:=/usr/lib/x86_64-linux-gnu/pkgconfig
-export PKG_CONFIG_PATH
+#PKG_CONFIG_PATH:=/usr/lib/x86_64-linux-gnu/pkgconfig
+#export PKG_CONFIG_PATH
 
 # Target padrão
 all: help
@@ -55,15 +55,14 @@ help:
 init:
 	@echo "$(BLUE)>>> 📦 Instalando dependências com Conan...$(NC)"
 	@echo "$(YELLOW)⚠️  IMPORTANTE: FFmpeg é grande e pode demorar para compilar!$(NC)"
-	@echo "$(YELLOW)    Primeira compilação: ~10-15 minutos$(NC)"
-	@echo "$(YELLOW)    Próximas vezes: instantâneo (usa cache)$(NC)"
 	@echo ""
+	PKG_CONFIG_PATH="/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig" \
+	PATH="/usr/bin:$(PATH)" \
 	conan install . --output-folder=$(BUILD_DIR) --build=missing \
 		-s build_type=$(BUILD_TYPE) \
 		-c tools.system.package_manager:mode=install \
 		-c tools.system.package_manager:sudo=True
 	@echo "$(GREEN)✓ Dependências instaladas$(NC)"
-	@echo "$(YELLOW)ℹ  Arquivos gerados em: $(GENERATORS_DIR)$(NC)"
 
 # Configura o CMake usando as toolchains do Conan
 config:
