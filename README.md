@@ -1,5 +1,3 @@
-Perfeito! Vou criar um projeto completo com FFmpeg, igual fiz com wxWidgets! 🎬Pronto! Criei um projeto completo com FFmpeg! 🎬✨
-
 ## 📁 Estrutura do Projeto
 
 ```
@@ -109,4 +107,41 @@ make rebuild    # Recompilar do zero
 ```
 
 Está pronto para processar vídeos com FFmpeg em C++! 🚀🎬
+
+
+
+
+Para as tarefas que você precisa — **encodar, converter,
+extrair frames (imagens) e processar/pintar áreas de vídeo**
+—, essas bibliotecas **não são necessárias**. Você pode
+desabilitá-las sem nenhum prejuízo para a sua aplicação.
+
+Essas bibliotecas são voltadas exclusivamente para **interface
+gráfica e aceleração por hardware para exibição na tela**:
+
+| Biblioteca | O que ela faz | Você precisa para o seu projeto? |
+| --- | --- | --- |
+| **`with_xlib`** | Biblioteca base para renderizar janelas no sistema gráfico X11 (Linux). | **Não.** Usada apenas para abrir janelas de exibição/players de vídeo. |
+| **`with_xcb`** | Protocolo moderno de baixo nível para comunicação com o servidor gráfico X11. | **Não.** Usada para captura de tela do desktop (screen capture) e exibição. |
+| **`with_vaapi`** | Aceleração de vídeo via hardware para placas de vídeo Intel/AMD no Linux. | **Não** (a menos que precise encodar via GPU Intel/AMD). O processamento via CPU trata tudo perfeitamente. |
+| **`with_vdpau`** | Aceleração de vídeo via hardware (principalmente para placas antigas da NVIDIA no Linux). | **Não.** Mesma razão da VAAPI. |
+
+---
+
+### Por que desabilitá-las resolve o seu problema?
+
+Essas bibliotecas chamam a receita `xorg/system` do Conan,
+que tenta buscar os pacotes `.pc` dentro do sistema operacional
+através do `pkg-config`. Como o Homebrew estava "atrapalhando"
+o `pkg-config` do sistema, a compilação quebrava.
+
+Ao desabilitá-las no `conanfile.py`:
+
+1. O FFmpeg é compilado apenas com os codecs e filtros em
+C/C++ via CPU (como `swscale` para desenhar/pintar áreas e
+converter pixels).
+2. O Conan elimina totalmente a dependência do `xorg/system`
+e do sistema gráfico da máquina.
+3. A compilação fica mais leve, rápida e portátil.
+
 
